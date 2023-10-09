@@ -1,4 +1,5 @@
 from ib_insync import *
+from Main import optiondata
 from Main import graphs 
 import matplotlib.pyplot as plt
 
