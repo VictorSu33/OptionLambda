@@ -1,5 +1,4 @@
 from ib_insync import *
-from Main import options
 from Main import graphs 
 import matplotlib.pyplot as plt
 
