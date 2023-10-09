@@ -1,6 +1,6 @@
 from ib_insync import *
 import optiondata
-import grpahs
+import graphs
 import matplotlib.pyplot as plt
 
 
@@ -37,7 +37,7 @@ def test():
     ib.reqMarketDataType(4)
 
     chain = create_chain(ib, 'SPY', '20231009', (420,440), "C")
-    graph = grpahs.Graphs(chain)
+    graph = graphs.Graphs(chain)
     graph.plot_delta()
     print("here")
 
