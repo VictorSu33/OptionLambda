@@ -1,18 +1,17 @@
 from ib_insync import *
-util.startLoop()
+from Main import options
+from Main import graphs 
+import matplotlib.pyplot as plt
 
-ib = IB()
-ib.connect('127.0.0.1', 7496, clientId=1)
-ib.reqMarketDataType(4)
 
-def get_stock_price(stock: Contract):
+def get_stock_price(ib: IB, stock: Contract):
     data1 = ib.reqMktData(stock)
     ib.sleep(0.5)
     price = data1.marketPrice()
     ib.cancelMktData(stock)
     return price
 
-def create_chain(symbol :str, date: str, strike_range: tuple, right: str):
+def create_chain(ib: IB, symbol :str, date: str, strike_range: tuple, right: str):
     stock = Stock(symbol, 'SMART', 'USD')
     ib.qualifyContracts(stock)
     chains = ib.reqSecDefOptParams(stock.symbol, '', stock.secType, stock.conId)
@@ -22,5 +21,26 @@ def create_chain(symbol :str, date: str, strike_range: tuple, right: str):
     contracts = [Option(stock, date, strike, right, 'SMART')
         for strike in strikes]
     return contracts
-        
-print(util.df(create_chain('SPY', '20230911', (400, 500),'C')))
+
+def __main__():
+    util.startLoop()
+
+    ib = IB()
+    ib.connect('127.0.0.1', 7496, clientId=1)
+    ib.reqMarketDataType(4)
+
+def test():
+    util.startLoop()
+
+    ib = IB()
+    ib.connect('127.0.0.1', 7496, clientId=1)
+    ib.reqMarketDataType(4)
+
+    chain = create_chain(ib, 'SPY', '20231009', (420,440), "C")
+    graph = graphs.Graphs(chain)
+    graph.plot_delta()
+    print("here")
+
+
+test()  
+    
